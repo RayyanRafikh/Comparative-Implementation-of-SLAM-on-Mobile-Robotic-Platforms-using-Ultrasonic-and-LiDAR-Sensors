@@ -1,0 +1,14 @@
+<launch>
+    <node pkg="imu_filter_madgwick" type="imu_filter_node" name="imu_filter" output="screen">
+      <param name="input" value="imu_raw"/>
+      <param name="output" value="imu_data"/>
+      <param name="remove_gravity_vector" value="true"/>
+    </node>
+
+    <node pkg="ult_bot" type="raw_imu.py" name="raw_imu" output="screen">
+        <param name="port" value="/dev/ttyUSB0"/>
+    </node>
+
+    <node pkg="ult_bot" type="imu_to_odom.py" name="imu_to_odom" output="screen"/>
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find ult_bot)/conf/visualize.rviz" output="screen"/>
+</launch>
